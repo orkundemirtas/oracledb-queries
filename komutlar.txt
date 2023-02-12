@@ -1,0 +1,37 @@
+QUESTION :
+----------------------------------------------ORACLE--------------------------------------------------------
+Imagine an oracle table which has id and order_id columns. Table have same order_id with different id's.
+Example;
+      ORDER_ID                ID
+623cdc7ff2f3603b06a283ff    8112686  
+623cdc7ff2f3603b06a283ff    8116869
+623cdc7ff2f3603b06a28400    8117671
+
+623ce4068c47be1532c4c53c    8118392
+Write a select for group same order_ids, and show in one line which seperated with comma; //Please send sql.
+Select result should be like that;
+
+ORDER_ID                                       ID
+623cdc7ff2f3603b06a283ff    8112686 , 8116869
+623cdc7ff2f3603b06a28400    8117671
+623ce4068c47be1532c4c53c    8118392
+
+
+SOLUTION:
+
+PLATFORM : https://livesql.oracle.com/
+
+CREATE TABLE ORDERS
+(ID NUMBER(10) NOT NULL,
+ORDER_ID VARCHAR2(100) NOT NULL);
+
+
+INSERT INTO ORDERS (ID, ORDER_ID) VALUES (8112686, '623cdc7ff2f3603b06a283ff');
+INSERT INTO ORDERS (ID, ORDER_ID) VALUES (8116869, '623cdc7ff2f3603b06a283ff');
+INSERT INTO ORDERS (ID, ORDER_ID) VALUES (8117671, '623cdc7ff2f3603b06a28400');
+INSERT INTO ORDERS (ID, ORDER_ID) VALUES (8118392, '623ce4068c47be1532c4c53c');
+
+
+Select ORDER_ID, listagg(ID,',') within group (order by ID) as ID
+From ORDERS
+Group by ORDER_ID
